@@ -10,12 +10,12 @@ using HarmonyLib;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace jumpscareFoxy;
+namespace jumpscareCarl;
 
-[BepInPlugin("com.olivr.jumpscareFoxy", "JumpscareFoxy", "1.6.2")]
-public class jumpscareFoxy : BaseUnityPlugin
+[BepInPlugin("com.olivr.jumpscareCarl", "JumpscareCarl", "1.6.2")]
+public class jumpscareCarl : BaseUnityPlugin
 {
-    internal static jumpscareFoxy Instance { get; private set; } = null!;
+    internal static jumpscareCarl Instance { get; private set; } = null!;
     internal new static ManualLogSource Logger => Instance._logger;
     private ManualLogSource _logger => base.Logger;
     internal Harmony? Harmony { get; set; }
@@ -100,7 +100,7 @@ public class JumpscareManager
     {
         this.config = config;
         uiManager = new UIManager();
-        jumpscareFoxy.Logger.LogInfo("Jumpscare manager initialized");
+        jumpscareCarl.Logger.LogInfo("Jumpscare manager initialized");
     }
 
     public void Update()
@@ -137,12 +137,12 @@ public class JumpscareManager
     {
         if (!isJumpscarePlaying)
         {
-            jumpscareFoxy.Logger.LogInfo("Triggering jumpscare");
+            jumpscareCarl.Logger.LogInfo("Triggering jumpscare");
             isJumpscarePlaying = true;
             uiManager?.PlayJumpscare(config.AnimationFPS, () =>
             {
                 isJumpscarePlaying = false;
-                jumpscareFoxy.Logger.LogInfo("Jumpscare completed");
+                jumpscareCarl.Logger.LogInfo("Jumpscare completed");
             });
         }
     }
@@ -161,8 +161,8 @@ public class UIManager : MonoBehaviour
 
     public UIManager()
     {
-        jumpscareFoxy.Logger.LogInfo("Creating UI Manager");
-        jumpscareFoxy.Instance.StartManagedCoroutine(Initialize());
+        jumpscareCarl.Logger.LogInfo("Creating UI Manager");
+        jumpscareCarl.Instance.StartManagedCoroutine(Initialize());
     }
 
     private IEnumerator Initialize()
@@ -170,17 +170,17 @@ public class UIManager : MonoBehaviour
         yield return new WaitForEndOfFrame();
 
         // Get the directory where this mod's DLL is located
-        string modDirectory = Path.GetDirectoryName(typeof(jumpscareFoxy).Assembly.Location);
+        string modDirectory = Path.GetDirectoryName(typeof(jumpscareCarl).Assembly.Location);
         assetsRoot = Path.Combine(modDirectory!, "assets");
 
         if (!Directory.Exists(assetsRoot))
         {
-            jumpscareFoxy.Logger.LogError($"Assets folder not found at: {assetsRoot}");
-            jumpscareFoxy.Logger.LogError("The mod will not work correctly. Please ensure the 'assets' folder is in the same directory as the DLL.");
+            jumpscareCarl.Logger.LogError($"Assets folder not found at: {assetsRoot}");
+            jumpscareCarl.Logger.LogError("The mod will not work correctly. Please ensure the 'assets' folder is in the same directory as the DLL.");
             yield break;
         }
 
-        jumpscareFoxy.Logger.LogInfo($"Assets root directory detected: {assetsRoot}");
+        jumpscareCarl.Logger.LogInfo($"Assets root directory detected: {assetsRoot}");
 
         CreateUI();
         LoadAssets();
@@ -219,12 +219,12 @@ public class UIManager : MonoBehaviour
         rectTransform.offsetMin = Vector2.zero;
         rectTransform.offsetMax = Vector2.zero;
 
-        jumpscareFoxy.Logger.LogInfo("UI created successfully");
+        jumpscareCarl.Logger.LogInfo("UI created successfully");
     }
 
     private void LoadAssets()
     {
-        jumpscareFoxy.Logger.LogInfo("Loading assets...");
+        jumpscareCarl.Logger.LogInfo("Loading assets...");
         LoadAnimationFrames();
         assetsLoaded = true;
     }
@@ -235,7 +235,7 @@ public class UIManager : MonoBehaviour
 
         if (!Directory.Exists(framesPath))
         {
-            jumpscareFoxy.Logger.LogError($"Frames directory not found: {framesPath}");
+            jumpscareCarl.Logger.LogError($"Frames directory not found: {framesPath}");
             return;
         }
 
@@ -243,11 +243,11 @@ public class UIManager : MonoBehaviour
 
         if (files.Length == 0)
         {
-            jumpscareFoxy.Logger.LogError("No animation frames found!");
+            jumpscareCarl.Logger.LogError("No animation frames found!");
             return;
         }
 
-        jumpscareFoxy.Logger.LogInfo($"Loading {files.Length} animation frames...");
+        jumpscareCarl.Logger.LogInfo($"Loading {files.Length} animation frames...");
 
         foreach (string path in files)
         {
@@ -265,24 +265,24 @@ public class UIManager : MonoBehaviour
             }
             catch (Exception ex)
             {
-                jumpscareFoxy.Logger.LogError($"Error loading frame: {ex.Message}");
+                jumpscareCarl.Logger.LogError($"Error loading frame: {ex.Message}");
             }
         }
 
-        jumpscareFoxy.Logger.LogInfo($"Loaded {frames.Count} frames");
+        jumpscareCarl.Logger.LogInfo($"Loaded {frames.Count} frames");
     }
 
     public void PlayJumpscare(int fps, Action onComplete)
     {
         if (!initialized || !assetsLoaded)
         {
-            jumpscareFoxy.Logger.LogWarning("UI not ready or assets not loaded");
+            jumpscareCarl.Logger.LogWarning("UI not ready or assets not loaded");
             return;
         }
 
         if (imageComponent == null)
         {
-            jumpscareFoxy.Logger.LogError("Image component missing");
+            jumpscareCarl.Logger.LogError("Image component missing");
             return;
         }
 
@@ -294,7 +294,7 @@ public class UIManager : MonoBehaviour
         isPlaying = true;
         imageComponent.sprite = frames.Count > 0 ? frames[0] : null;
         imageComponent.color = Color.white;
-        jumpscareFoxy.Instance.StartManagedCoroutine(JumpscareSequence(fps, onComplete));
+        jumpscareCarl.Instance.StartManagedCoroutine(JumpscareSequence(fps, onComplete));
     }
 
     private IEnumerator JumpscareSequence(int fps, Action onComplete)
@@ -312,7 +312,7 @@ public class UIManager : MonoBehaviour
         }
         else
         {
-            jumpscareFoxy.Logger.LogWarning("No frames available, using fallback");
+            jumpscareCarl.Logger.LogWarning("No frames available, using fallback");
             yield return new WaitForSeconds(2f);
         }
 
@@ -323,11 +323,11 @@ public class UIManager : MonoBehaviour
 
     private IEnumerator LoadAndPlayAudio()
     {
-        string soundPath = Path.Combine(assetsRoot!, "jumpscare.wav");
+        string soundPath = Path.Combine(assetsRoot!, "evil_larry.wav");
 
         if (!File.Exists(soundPath))
         {
-            jumpscareFoxy.Logger.LogError($"Audio file not found: {soundPath}");
+            jumpscareCarl.Logger.LogError($"Audio file not found: {soundPath}");
             yield break;
         }
 
@@ -337,7 +337,7 @@ public class UIManager : MonoBehaviour
 
             if (!string.IsNullOrEmpty(www.error))
             {
-                jumpscareFoxy.Logger.LogError($"Audio load error: {www.error}");
+                jumpscareCarl.Logger.LogError($"Audio load error: {www.error}");
             }
             else
             {
@@ -345,11 +345,11 @@ public class UIManager : MonoBehaviour
                 if (audioSource.clip != null)
                 {
                     audioSource.Play();
-                    jumpscareFoxy.Logger.LogInfo("Playing jumpscare sound");
+                    jumpscareCarl.Logger.LogInfo("Playing jumpscare sound");
                 }
                 else
                 {
-                    jumpscareFoxy.Logger.LogError("Failed to create audio clip");
+                    jumpscareCarl.Logger.LogError("Failed to create audio clip");
                 }
             }
         }
