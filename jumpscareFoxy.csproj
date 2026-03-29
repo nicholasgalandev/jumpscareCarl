@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <Authors>olivr</Authors>
     <Version>1.6.0</Version>
-    <Description>1/1000 chance for Foxy jumpscare every second</Description>
+    <Description>1/1000 chance for Carl jumpscare every second</Description>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
