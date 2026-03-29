@@ -1,11 +1,11 @@
-# 1/1000 chance for Withered Foxy Jumpscare every second #
+# 1/1000 chance for Carl Jumpscare every second #
 
 
 ! This is a remake/port of the already existing mod jumpscareFoxy by olivr !
 
 ## Installation ##
 
-put the jumpscareFoxy folder into BepinEx/plugins
+put the jumpscareCarl folder into BepinEx/plugins
 Easiest way is to install using a modmanager like r2modman
 the mod is very configurable and is fully compatible with REPOConfig.
 
